@@ -76,7 +76,7 @@ class Handlers:
 
             print(' [!] Unfortunately we couldn\'t find class for you :[')
 
-            time.sleep(30) #TODO: every 5 mins or set by config value
+            time.sleep(60*5) #TODO: every 5 mins or set by config value
 
     def joinMeeting(self, className):
 
