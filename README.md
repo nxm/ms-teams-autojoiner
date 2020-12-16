@@ -28,5 +28,6 @@ It's first version of program. Let me know if you have any issues!
 - [ ] Add end of lesson detector
 - [ ] Cleanup code
 - [ ] Add logs to file/db
+- [ ] Replace time.sleep to waits for elements
 
 Written on Python3
