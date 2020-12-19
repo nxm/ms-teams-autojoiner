@@ -1,4 +1,4 @@
-import time
+import time, helper
 from webhook import sendMessage
 from helper import Colors
 from selenium.webdriver.common.keys import Keys
@@ -67,6 +67,7 @@ class Handlers:
                     else:
                         self.foundActiveClass = True
                         print('\n{}Trying to join...{}'.format(Colors.BLUE, Colors.RESET))
+                        time.sleep(6)
                         self.joinMeeting(className)
                         return True
                 except:
@@ -76,16 +77,18 @@ class Handlers:
 
             print(' [!] Unfortunately we couldn\'t find class for you :[')
 
-            time.sleep(60*5) #TODO: every 5 mins or set by config value
+            helper.wait(60*5) #TODO: every 5 mins or set by config value
 
     def joinMeeting(self, className):
 
         try:
+            print('join button click')
             joinButton = self.driver.find_element_by_class_name("ts-calling-join-button")
             joinButton.click()
         except:
             pass
-
+        
+        print('getting webcam btn')
         webcamButton = self.driver.find_element_by_xpath('//*[@id="page-content-wrapper"]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[2]/toggle-button[1]/div/button/span[1]')
 
         if webcamButton.get_attribute('title') == 'Turn camera off':

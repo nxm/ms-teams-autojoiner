@@ -1,4 +1,5 @@
 import time, json
+import helper
 from teams_handlers import Handlers
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -8,7 +9,7 @@ config = None
 with open('config.json') as f:
    config = json.load(f)
 
-class MyDriver:
+def initDriver():
     options = Options()
     options.add_experimental_option("prefs", {
     "profile.default_content_setting_values.media_stream_mic": 1, 
@@ -17,23 +18,33 @@ class MyDriver:
     "profile.default_content_setting_values.notifications": 1 
     })
 
-    driver = webdriver.Chrome(executable_path='./chromedriver.exe', options=options)
+    return webdriver.Chrome(executable_path='./chromedriver.exe', options=options)
 
-    driver.get('https://teams.microsoft.com')
-    time.sleep(7)
+def runner():
+    try:
+        driver = initDriver()
 
-    handler = Handlers(driver)
-    handler.setConfiguration(config)
+        driver.get('https://teams.microsoft.com')
+        time.sleep(7)
 
-    handler.login(config['login'], config['password'])
+        handler = Handlers(driver)
+        handler.setConfiguration(config)
 
-    time.sleep(4)
+        handler.login(config['login'], config['password'])
 
-    handler.scanClasses()
+        time.sleep(4)
 
-    # time.sleep(3)
-    # driver.quit()
+        handler.scanClasses()
+
+        helper.wait(60*45)#45 mins, time of during a class
+        driver.quit()
+    except:
+        pass
+
 
 if __name__=='__main__':
-    MyDriver()
+    while True:
+        print('{}New session of chrome is starting{}'.format(helper.Colors.RED, helper.Colors.RESET))
+        runner()
+        time.sleep(2)
     
